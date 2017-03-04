@@ -1,0 +1,59 @@
+[
+  {
+  "type" : "image",
+  "width" : "300",
+  "height" : "108",
+  "name" : "coretext-image-1.jpg"
+  },
+  {
+  "color" : "FF1493",
+  "content" : "更进一步地，实际工作中，我们更希望通过一个排版文件，来设置需要排版的文字的",
+  "size" : "16",
+  "type" : "txt"
+  },
+  {
+  "color" : "CD00CD",
+  "content" : "内容、颜色、字体",
+  "size" : "22",
+  "type" : "txt"
+  },
+  {
+  "color" : "575757",
+  "content" : "大小等信息。\n",
+  "size" : "16",
+  "type" : "txt"
+  },
+  {
+  "type" : "image",
+  "width" : "200",
+  "height" : "130",
+  "name" : "coretext-image-2.jpg"
+  },
+  {
+  "color" : "default",
+  "content" : "我在开发猿题库应用时，自己定义了一个基于 UBB 的排版模版，但是实现该排版文件的解析器要花费大量的篇幅，考虑到这并不是本章的重点，所以我们以一个较简单的排版文件来讲解其思想。",
+  "type" : "txt"
+  },
+  {
+  "color" : "000000",
+  "content" : " 这在这里尝试放一个参考链接：",
+  "type" : "txt"
+  },
+  {
+  "color" : "e2e2e2",
+  "content" : " 链接文字 ",
+  "url" : "http://blog.devtang.com",
+  "type" : "link"
+  },
+  {
+  "color" : "000000",
+  "content" : " 大家可以尝试点击一下 ",
+  "type" : "txt"
+ },
+ {
+ "type" : "image",
+ "width" : "40",
+ "height" : "20",
+ "name" : "coretext-image-2.jpg"
+ }
+]
