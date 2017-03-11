@@ -8,6 +8,19 @@
 
 import UIKit
 
+class PictureRunInfo {
+    
+    var ascender: CGFloat
+    var descender: CGFloat
+    var width: CGFloat
+    
+    init(ascender: CGFloat, descender: CGFloat, width: CGFloat) {
+        self.ascender = ascender
+        self.descender = descender
+        self.width = width
+    }
+}
+
 class CTFrameParser: NSObject {
     
     static func parse(content: NSAttributedString, config: CTFrameParserConfig) -> CoreTextData {
@@ -77,6 +90,7 @@ class CTFrameParser: NSObject {
         let content = self.loadTemplateFile(path: path, config: config, imageArray: &imageArray, linkArray: &linkArray)
         
         let coreTextData = self.parse(content: content, config: config)
+        
         coreTextData.imageArray = imageArray
         coreTextData.linkArray = linkArray
         
@@ -101,13 +115,27 @@ class CTFrameParser: NSObject {
                     }
                     
                     if type == "image" {
-                        var imageData = CoreTextImageData()
+                        let imageData = CoreTextImageData()
                         imageData.name = item["name"]
                         imageData.imagePosition = CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0)
                         imageArray.append(imageData)
                         
+                        let subStr = self.parseImageAttributedCotnentFromDictionary(dict: item, config: config)
+                        result.append(subStr)
+                        
+                        print("here")
+                    }
+                    
+                    if type == "link" {
+                        let startPosition = result.length
                         let subStr = self.parseAttributedCotnentFromDictionary(dict: item, config: config)
                         result.append(subStr)
+                        
+                        var linkData = CoreTextLinkData()
+                        linkData.title = item["content"]
+                        linkData.url   = item["url"]
+                        linkData.range = NSMakeRange(startPosition, result.length - startPosition)
+                        linkArray.append(linkData)
                     }
                 }
             }
@@ -116,12 +144,12 @@ class CTFrameParser: NSObject {
         return result
     }
 
-    /// 从字典中解析富文本信息
+    /// 从字典中解析文字富文本信息
     ///
     /// - Parameters:
     ///   - dict: 文字属性字典
     ///   - config: 配置信息
-    /// - Returns: 富文本
+    /// - Returns: 文字富文本
     class func parseAttributedCotnentFromDictionary(dict: [String: String], config: CTFrameParserConfig) -> NSAttributedString {
   
         var attributes = self.attributes(config: config)
@@ -146,5 +174,81 @@ class CTFrameParser: NSObject {
         let contentStr = dict["content"] ?? ""
         
         return NSAttributedString(string: contentStr, attributes: attributes)
+    }
+    
+    /// 从字典中解析图片富文本信息
+    ///
+    /// - Parameters:
+    ///   - dict: 文字属性字典
+    ///   - config: 配置信息
+    /// - Returns: 图片富文本
+    class func parseImageAttributedCotnentFromDictionary(dict: [String: String], config: CTFrameParserConfig) -> NSAttributedString {
+        var ascender: CGFloat = 0.0
+        if let height = (dict["height"] as AnyObject).floatValue {
+            ascender = CGFloat(height)
+        }
+        var width: CGFloat = 0.0
+        if let w = (dict["width"] as AnyObject).floatValue {
+            width = CGFloat(w)
+        }
+        let pic = PictureRunInfo(ascender: ascender, descender: 0.0, width: width)
+        
+        var callbacks = CTRunDelegateCallbacks(version: kCTRunDelegateVersion1, dealloc: { refCon in
+            print("RunDelegate dealloc!")
+        }, getAscent: { (refCon) -> CGFloat in
+            let pictureRunInfo = unsafeBitCast(refCon, to: PictureRunInfo.self)
+            return pictureRunInfo.ascender
+//            let dict = unsafeBitCast(refCon, to: NSDictionary.self)
+//            if let height = (dict["height"] as AnyObject).floatValue {
+//                return CGFloat(height)
+//            }
+//            return 0
+        }, getDescent: { (refCon) -> CGFloat in
+            return 0
+        }, getWidth: { (refCon) -> CGFloat in
+            
+            let pictureRunInfo = unsafeBitCast(refCon, to: PictureRunInfo.self)
+            return pictureRunInfo.width
+            
+//            let dict = unsafeBitCast(refCon, to: NSDictionary.self)
+//            if let width = (dict["width"] as AnyObject).floatValue {
+//                return CGFloat(width)
+//            }
+//            return 0
+        })
+        
+        
+        
+        
+        
+        let selfPtr = UnsafeMutableRawPointer(Unmanaged.passRetained(pic).toOpaque())
+        
+        
+        
+        //1:设置CTRun的代理,为图片设置CTRunDelegate,delegate决定留给图片的空间大小
+        // 创建 RunDelegate, 传入 imageCallback 中图片数据
+        let runDelegate = CTRunDelegateCreate(&callbacks, selfPtr)
+        
+        let replaceChar = 0xFFFC
+        let content = String(replaceChar)
+        let attributes : Dictionary = self.attributes(config: config)
+        let space = NSMutableAttributedString(string: content, attributes: attributes)
+        
+        CFAttributedStringSetAttribute(space, CFRangeMake(0, 1), kCTRunDelegateAttributeName, runDelegate)
+        return space;
+    }
+    
+    /// 从字典中解析图片富文本信息
+    ///
+    /// - Parameters:
+    ///   - dict: 文字属性字典
+    ///   - config: 配置信息
+    /// - Returns: 图片富文本
+    class func parseImageAttributedCotnentFromDictionary1(dict: [String: String], config: CTFrameParserConfig) -> NSAttributedString {
+        
+        let attributes      = self.attributes(config: config)
+        let attributeString = CTFrameParserCAPI.parse(toNSAttributedString: dict, attributes: attributes)
+        
+        return attributeString!
     }
 }

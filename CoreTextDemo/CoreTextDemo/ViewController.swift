@@ -44,7 +44,16 @@ class ViewController: UIViewController {
         let config = CTFrameParserConfig()
         let data = CTFrameParser.parseTemplateFile(path: "content", config: config)
         
+        for imageData in data.imageArray {
+            print(imageData.imagePosition)
+        }
+        
+        print(data.height)
+        
         displayView.data = data
+        displayView.tapCoreTextImage { (displayView, imageData) in
+            print("aiyo")
+        }
     }
 }
 

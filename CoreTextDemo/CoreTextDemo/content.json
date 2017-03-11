@@ -27,7 +27,7 @@
   "type" : "image",
   "width" : "200",
   "height" : "130",
-  "name" : "coretext-image-2.jpg"
+  "name" : "coretext-image-1.jpg"
   },
   {
   "color" : "default",
@@ -54,6 +54,6 @@
  "type" : "image",
  "width" : "40",
  "height" : "20",
- "name" : "coretext-image-2.jpg"
+ "name" : "coretext-image-1.jpg"
  }
 ]

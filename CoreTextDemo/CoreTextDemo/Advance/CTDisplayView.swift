@@ -10,7 +10,25 @@ import UIKit
 
 class CTDisplayView: UIView {
     
+    typealias CoreTextImageTapAction = (_ displayView: CTDisplayView, _ imageData: CoreTextImageData) -> ()
+    
     var data: CoreTextData?
+    var imageTapAction: CoreTextImageTapAction?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupEvents()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupEvents()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupEvents()
+    }
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -25,6 +43,52 @@ class CTDisplayView: UIView {
         
         if data != nil {
             CTFrameDraw(data!.ctFrame, context)
+            
+            for imageData in data!.imageArray {
+                let image = UIImage(named: imageData.name)
+                
+                if let image = image {
+                    context.draw(image.cgImage!, in: imageData.imagePosition)
+                }
+            }
         }
+    }
+    
+    private func setupEvents() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userTapGestureDetected(recognizer:)))
+        self.addGestureRecognizer(tapGestureRecognizer)
+        self.isUserInteractionEnabled = true
+    }
+    
+    func userTapGestureDetected(recognizer: UITapGestureRecognizer) {
+        let point = recognizer.location(in: self)
+        print("point\(point)")
+        if let imageArray = data?.imageArray {
+            for imageData in imageArray {
+                // 翻转坐标系，因为 imageData 中的坐标是 CoreText 的坐标系
+                let imageRect = imageData.imagePosition
+                var imagePosition = imageRect.origin
+                imagePosition.y = self.bounds.size.height - imageRect.origin.y - imageRect.size.height
+                let rect = CGRect(x: imagePosition.x, y: imagePosition.y, width: imageRect.size.width, height: imageRect.size.height)
+                if rect.contains(point) {
+                    print("\(imageData.name)")
+                    
+                    imageTapAction?(self, imageData)
+                    
+                    break
+                }
+            }
+        }
+        
+        if let d = data {
+            let linkData = CoreTextUtils.touchLink(inView: self, atPoint: point, data: d)
+            if linkData != nil {
+                print(linkData!.url)
+            }
+        }
+    }
+    
+    public func tapCoreTextImage(_ tapAction: CoreTextImageTapAction?) {
+        imageTapAction = tapAction
     }
 }
