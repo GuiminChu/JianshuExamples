@@ -3,7 +3,7 @@
 //  CoreTextDemo
 //
 //  Created by Chu Guimin on 17/3/10.
-//  Copyright © 2017年 e-inv. All rights reserved.
+//  Copyright © 2017年 cgm. All rights reserved.
 //
 
 import UIKit

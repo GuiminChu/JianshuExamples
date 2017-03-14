@@ -27,7 +27,7 @@
   "type" : "image",
   "width" : "200",
   "height" : "130",
-  "name" : "coretext-image-1.jpg"
+  "name" : "coretext-image-2.jpg"
   },
   {
   "color" : "default",
@@ -49,11 +49,5 @@
   "color" : "000000",
   "content" : " 大家可以尝试点击一下 ",
   "type" : "txt"
- },
- {
- "type" : "image",
- "width" : "40",
- "height" : "20",
- "name" : "coretext-image-1.jpg"
  }
 ]
