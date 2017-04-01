@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WP8-ux-FwJ">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Image Picker View Controller-->
+        <scene sceneID="rDz-jp-rgA">
+            <objects>
+                <viewController id="WP8-ux-FwJ" customClass="ImagePickerViewController" customModule="LearnRxSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gwF-J2-v9g"/>
+                        <viewControllerLayoutGuide type="bottom" id="ynr-eb-qBO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Vw9-G2-kgW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dwv-v7-2xu">
+                                <rect key="frame" x="15" y="96" width="345" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="240" id="IRo-gs-JLc"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KA2-XU-mAW">
+                                <rect key="frame" x="171.5" y="344" width="31" height="30"/>
+                                <state key="normal" title="相册"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hyo-5C-X82">
+                                <rect key="frame" x="171.5" y="382" width="31" height="30"/>
+                                <state key="normal" title="拍照"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8xj-ra-iDq">
+                                <rect key="frame" x="171.5" y="420" width="31" height="30"/>
+                                <state key="normal" title="上传"/>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Nhh-DZ-1gu">
+                                <rect key="frame" x="177" y="206" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Hyo-5C-X82" firstAttribute="top" secondItem="KA2-XU-mAW" secondAttribute="bottom" constant="8" id="3Qy-4I-Yy4"/>
+                            <constraint firstItem="8xj-ra-iDq" firstAttribute="top" secondItem="Hyo-5C-X82" secondAttribute="bottom" constant="8" id="DVa-Lp-m8s"/>
+                            <constraint firstAttribute="trailing" secondItem="dwv-v7-2xu" secondAttribute="trailing" constant="15" id="GCU-cY-TkI"/>
+                            <constraint firstItem="dwv-v7-2xu" firstAttribute="top" secondItem="gwF-J2-v9g" secondAttribute="bottom" constant="32" id="HkC-17-QHb"/>
+                            <constraint firstItem="KA2-XU-mAW" firstAttribute="top" secondItem="dwv-v7-2xu" secondAttribute="bottom" constant="8" id="Jld-3e-cp8"/>
+                            <constraint firstItem="8xj-ra-iDq" firstAttribute="centerX" secondItem="KA2-XU-mAW" secondAttribute="centerX" id="L66-Wf-5Ki"/>
+                            <constraint firstItem="Hyo-5C-X82" firstAttribute="centerX" secondItem="KA2-XU-mAW" secondAttribute="centerX" id="Qlc-by-6q9"/>
+                            <constraint firstItem="Nhh-DZ-1gu" firstAttribute="centerX" secondItem="dwv-v7-2xu" secondAttribute="centerX" id="UmP-yN-9XJ"/>
+                            <constraint firstItem="Nhh-DZ-1gu" firstAttribute="centerY" secondItem="dwv-v7-2xu" secondAttribute="centerY" id="Zvk-ih-QhO"/>
+                            <constraint firstItem="KA2-XU-mAW" firstAttribute="centerX" secondItem="Vw9-G2-kgW" secondAttribute="centerX" id="jYN-56-59r"/>
+                            <constraint firstItem="dwv-v7-2xu" firstAttribute="leading" secondItem="Vw9-G2-kgW" secondAttribute="leading" constant="15" id="tb4-tA-VfF"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Nhh-DZ-1gu" id="ale-oi-lBX"/>
+                        <outlet property="cameraButton" destination="Hyo-5C-X82" id="irr-VJ-utg"/>
+                        <outlet property="galleryButton" destination="KA2-XU-mAW" id="j6W-vf-uzl"/>
+                        <outlet property="imageView" destination="dwv-v7-2xu" id="YaN-C7-Lym"/>
+                        <outlet property="uploadButton" destination="8xj-ra-iDq" id="biD-ZG-zw3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1it-L3-4Xw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1782" y="665"/>
+        </scene>
+    </scenes>
+</document>
